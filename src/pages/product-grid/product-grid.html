@@ -19,15 +19,15 @@
   </mat-sidenav>
   <mat-sidenav-content class="bg-gray-100 p-6 h-full">
     <h1 class="text-2xl font-bold text-gray-900 mb-1">{{ category() | titlecase }}</h1>
-    @if(filteredProducts().length === 1){
-    <p class="text-medium text-gray-900 mb-6">{{ filteredProducts().length }} product found</p>
+    @if(store.filteredProducts().length === 1){
+    <p class="text-medium text-gray-900 mb-6">{{ store.filteredProducts().length }} product found</p>
     } 
     @else {
-    <p class="text-medium text-gray-900 mb-6">{{ filteredProducts().length }} products found</p>
+    <p class="text-medium text-gray-900 mb-6">{{ store.filteredProducts().length }} products found</p>
     }
 
     <div class="responsive-grid">
-      @for (product of filteredProducts(); track product.id){
+      @for (product of store.filteredProducts(); track product.id){
       <app-product-card
         [product]="product"
         (addToCartClicked)="addToCart($event)"

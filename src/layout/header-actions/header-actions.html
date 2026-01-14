@@ -1,5 +1,5 @@
 <div class="flex items-center gap-2 color-black">
- <button matIconButton routerLink="/wish-list">
+ <button matIconButton routerLink="/wish-list" [matBadge]="store.wishListCount()" [matBadgeHidden]="store.wishListCount() === 0" >
     <mat-icon>favorite</mat-icon>
  </button>
  <button matIconButton>
