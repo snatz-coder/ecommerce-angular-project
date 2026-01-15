@@ -20,18 +20,20 @@
   <mat-sidenav-content class="bg-gray-100 p-6 h-full">
     <h1 class="text-2xl font-bold text-gray-900 mb-1">{{ category() | titlecase }}</h1>
     @if(store.filteredProducts().length === 1){
-    <p class="text-medium text-gray-900 mb-6">{{ store.filteredProducts().length }} product found</p>
-    } 
-    @else {
-    <p class="text-medium text-gray-900 mb-6">{{ store.filteredProducts().length }} products found</p>
+    <p class="text-medium text-gray-900 mb-6">
+      {{ store.filteredProducts().length }} product found
+    </p>
+    } @else {
+    <p class="text-medium text-gray-900 mb-6">
+      {{ store.filteredProducts().length }} products found
+    </p>
     }
 
     <div class="responsive-grid">
       @for (product of store.filteredProducts(); track product.id){
-      <app-product-card
-        [product]="product"
-        (addToCartClicked)="addToCart($event)"
-      ></app-product-card>
+      <app-product-card [product]="product" (addToCartClicked)="addToCart($event)">
+        <app-toggle-wishlist-button class="!absolute z-10 right-3 top-3" [product]="product" [icon]="'favorite'"></app-toggle-wishlist-button>
+      </app-product-card>
       }
     </div>
   </mat-sidenav-content>

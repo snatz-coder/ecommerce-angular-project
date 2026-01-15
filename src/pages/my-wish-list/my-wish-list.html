@@ -1,1 +1,31 @@
-<p>my-wish-list works!</p>
+<div class="mx-auto px-6 max-w-[1200px] py-4">
+  <app-back-button class="mb-6" [label]="'Continue Shopping'" [navigateTo]="'/products/all'">
+  </app-back-button>
+  @if(store.wishListItems().length > 0){
+  <div class="flex justify-between items-center mt-6 ml-4 mb-6">
+    <h1 class="text-2xl font-bold">My Wish List</h1>
+    <span class="text-gray-500 text-xl">
+            {{store.wishListItems().length}} {{store.wishListItems().length > 1 ? 'items' : 'item'}} 
+    </span>
+  </div>
+  <div class="responsive-grid ml-4">
+    @for(product of store.wishListItems(); track product.id){
+    <app-product-card [product]="product">
+      <button
+        class="!absolute z-10 top-3 right-3 w-10 h-10 rounded-full !bg-white border-0 shadow-mg flex items-center justify-center cursor-pointer transition-all duration-200 hover: scale-110 hover:shadow-lg"
+        matIconButton
+        (click)="store.removeFromWishList(product)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </app-product-card>
+    }
+  </div>
+     <div class="mt-8 flex justify-center">
+        <button matButton="outlined" class="danger" (click)="store.clearWishlist()">Clear Wishlist</button>
+    </div>
+} 
+@else {
+    <app-empty-wishlist />
+  }
+</div>

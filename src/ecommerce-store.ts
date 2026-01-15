@@ -139,6 +139,9 @@ export const EcommerceStore = signalStore(
       })
       patchState(store, {wishListItems: updatedWishList});
       toast.success('Product successfully removed from the Wish list')
+    }),
+    clearWishlist:(() => {
+      patchState(store, {wishListItems:[]})
     })
   }))
 );
