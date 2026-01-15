@@ -129,5 +129,16 @@ export const EcommerceStore = signalStore(
       patchState(store, { wishListItems: updatedWishList });
       toast.success('Product successfully added to the Wish list')
     }),
+    removeFromWishList: signalMethod<Product>((product: Product) => {
+      //const updatedWishList = store.wishListItems().filter(p => p.id !== product.id)
+      const updatedWishList = produce(store.wishListItems(), (draft) => {
+        const index = draft.findIndex(p => p.id === product.id);
+        if(index !== -1){
+          draft.splice(index,1)
+        }
+      })
+      patchState(store, {wishListItems: updatedWishList});
+      toast.success('Product successfully removed from the Wish list')
+    })
   }))
 );

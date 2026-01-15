@@ -11,17 +11,19 @@ import { EcommerceStore } from '../../ecommerce-store';
   styleUrl: './product-card.scss',
 })
 export class ProductCard {
- product = input.required<Product>();
+  product = input.required<Product>();
 
- addToCartClicked = output<Product>();
+  addToCartClicked = output<Product>();
 
- store = inject(EcommerceStore);
+  store = inject(EcommerceStore);
 
- isInWishList = computed(() => this.store.wishListItems().find((p) => p.id === this.product().id))
+  isInWishList = computed(() => this.store.wishListItems().find((p) => p.id === this.product().id));
 
-
- toggleWishlist(product: Product){
-  if(!this.isInWishList()) this.store.addToWishList(product)
- }
-
+  toggleWishlist(product: Product) {
+    if (!this.isInWishList()) {
+      this.store.addToWishList(product);
+    } else {
+      this.store.removeFromWishList(product);
+    }
+  }
 }
