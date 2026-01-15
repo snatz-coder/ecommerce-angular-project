@@ -109,7 +109,4 @@ export default class ProductGrid {
 
   categories = signal<string[]>(['all','bags', 'accessories', 'computers', 'electronics'])
 
-  addToCart(product:Product){
-
-  }
 }
