@@ -1,0 +1,9 @@
+<div appViewPanel>
+ <h2 class="text-2xl font-bold mb-4">Cart Items {{store.addToCartCount()}}</h2>
+ <div>
+    @for(cartItem of store.cartItems(); track cartItem){
+        <app-show-cart-items [item]="cartItem"></app-show-cart-items>
+    }
+    
+ </div>
+</div>

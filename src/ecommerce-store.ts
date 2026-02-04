@@ -119,7 +119,11 @@ export const EcommerceStore = signalStore(
       return wishListItems().length;
     }),
     addToCartCount: computed(() => {
-      return cartItems().reduce((acc,item) => acc + item.quantity, 0);
+      let total = 0;
+      cartItems().forEach(el => {
+        total += el.quantity
+      });
+      return total
     }),
   })),
   withMethods((store, toast = inject(Toaster)) => ({
@@ -162,5 +166,17 @@ export const EcommerceStore = signalStore(
       patchState(store, { cartItems: updateCartItem });
       toast.success('Product added to the cart successfuly')
     },
+    setItemQuantity: (cartItem:CartItem) => {
+         const index = store.cartItems().findIndex(c => c.product.id === cartItem.product.id);
+         const updatedQuantity = produce(store.cartItems(), (draft: CartItem[]) => {
+          draft[index].quantity = cartItem.quantity
+     })
+     patchState(store, {cartItems: updatedQuantity})
+    
+    },
+    removeFromCart: (cartItem:CartItem) => {
+      const updatedCart = store.cartItems().filter(p => p.product.id !== cartItem.product.id );
+      patchState(store, {cartItems:updatedCart})
+    }
   }))
 );
