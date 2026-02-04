@@ -1,13 +1,15 @@
 <div class="mx-auto px-6 max-w-[1200px] py-6">
- <app-back-button class="mb-6" [label]="'Continue Shopping'" [navigateTo]="'/products/all'"></app-back-button>
- <h1 class="text-3xl font-medium mb-4 mt-4 px-4">Shopping Cart</h1>
+  <app-back-button
+    class="mb-6"
+    [label]="'Continue Shopping'"
+    [navigateTo]="'/products/all'"
+  ></app-back-button>
+  <h1 class="text-3xl font-medium mb-4 mt-4 px-4">Shopping Cart</h1>
 
- <div class="grid grid-col-1 lg:grid-col-3 gap-6">
-    <div class="lg:col-span-2">
-        <app-list-cart-items></app-list-cart-items>
-    </div>
-    <div>
-        <app-summarize-order></app-summarize-order>
-    </div>
- </div>
+  <div class="grid grid-col-1 lg:grid-col-3 gap-6">
+    <app-list-cart-items></app-list-cart-items>
+  </div>
+  <div class="grid grid-col-1 lg:grid-col-3 gap-6 mt-4">
+    <app-summarise-order></app-summarise-order>
+  </div>
 </div>
