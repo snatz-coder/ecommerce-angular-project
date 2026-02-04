@@ -1,15 +1,18 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Product } from '../../model/product.model';
 import { ProductCard } from '../../components/product-card/product-card';
 import { MatSidenavContainer, MatSidenavContent, MatSidenav } from '@angular/material/sidenav'
 import { MatNavList, MatListItem } from '@angular/material/list'
 import { RouterLink } from '@angular/router';
-import { TitleCasePipe } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { EcommerceStore } from '../../ecommerce-store';
 import { ToggleWishlistButton } from '../../components/toggle-wishlist-button/toggle-wishlist-button';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { map } from 'rxjs';
 @Component({
   selector: 'app-product-grid',
-  imports: [ProductCard, MatSidenavContainer, MatSidenavContent, MatSidenav, MatNavList, MatListItem, RouterLink, TitleCasePipe, ToggleWishlistButton],
+  imports: [CommonModule, ProductCard, MatSidenavContainer, MatSidenavContent, MatSidenav, MatNavList, MatListItem, RouterLink, TitleCasePipe, ToggleWishlistButton],
   templateUrl: './product-grid.html',
   styleUrl: './product-grid.scss',
 })
@@ -17,10 +20,18 @@ export default class ProductGrid {
   category = input<string>('all');
 
   store = inject(EcommerceStore);
+  breakpoint = inject(BreakpointObserver);
 
   constructor(){
    this.store.setCategory(this.category)
   }
+
+  isMobile = toSignal(
+  this.breakpoint.observe('(max-width: 768px)').pipe(
+    map(state => state.matches)
+  ),
+  { initialValue: false }
+);
 
   products = signal<Product[]>([
     {
