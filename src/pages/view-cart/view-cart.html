@@ -12,7 +12,7 @@
   <div class="grid grid-col-1 lg:grid-col-3 gap-6 mt-4">
     <app-summarise-order>
         <ng-container actionButtons>
-            <button matButton="filled" class="mt-4 mx-auto py-3 text-2xl font-bold w-60">Proceed to checkout</button>
+            <button matButton="filled" class="mt-4 mx-auto py-3 text-2xl font-bold w-60" (click)="store.proceedToCheckout()">Proceed to checkout</button>
         </ng-container>
     </app-summarise-order>
   </div>

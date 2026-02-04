@@ -11,12 +11,17 @@ import {
 import { produce } from 'immer';
 import { Toaster } from './service/toaster';
 import { CartItem } from './model/cart.model';
+import { MatDialog } from '@angular/material/dialog';
+import { SignInDialog } from './components/sign-in-dialog/sign-in-dialog';
+import { SignInParams, User } from './model/user.model';
+import { Router } from '@angular/router';
 
 export type EcommerceState = {
   products: Product[];
   category: string;
   wishListItems: Product[];
   cartItems: CartItem[];
+  user:User | undefined;
 };
 
 export const EcommerceStore = signalStore(
@@ -109,6 +114,7 @@ export const EcommerceStore = signalStore(
     category: 'all',
     wishListItems: [],
     cartItems: [],
+    user:undefined
   } as unknown as EcommerceState),
   withComputed(({ products, category, wishListItems, cartItems }) => ({
     filteredProducts: computed(() => {
@@ -126,7 +132,7 @@ export const EcommerceStore = signalStore(
       return total
     }),
   })),
-  withMethods((store, toast = inject(Toaster)) => ({
+  withMethods((store, toast = inject(Toaster), matDialog = inject(MatDialog), router = inject(Router)) => ({
     setCategory: signalMethod<string>((category) => {
       patchState(store, { category });
     }),
@@ -177,6 +183,26 @@ export const EcommerceStore = signalStore(
     removeFromCart: (cartItem:CartItem) => {
       const updatedCart = store.cartItems().filter(p => p.product.id !== cartItem.product.id );
       patchState(store, {cartItems:updatedCart})
+    },
+    proceedToCheckout: () => {
+      matDialog.open(SignInDialog, {
+        disableClose:true,
+        data:{
+          checkout:true
+        }
+      })
+    },
+    signIn: ({email,password, checkout, dialogId}: SignInParams) => {
+     patchState(store, {
+      user: {
+      id:'1',
+      email,
+      name:'John Doe',
+      imageUrl:''
+     }})
+      console.log("checkout",checkout)
+     matDialog.getDialogById(dialogId)?.close();
+     if(checkout) router.navigate(['/checkout'])
     }
   }))
 );

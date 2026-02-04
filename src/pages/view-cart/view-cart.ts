@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BackButton } from '../../components/back-button/back-button';
 import { ListCartItems } from './list-cart-items/list-cart-items';
 import { SummariseOrder } from '../../components/summarise-order/summarise-order';
 import { MatButton } from '@angular/material/button';
+import { EcommerceStore } from '../../ecommerce-store';
 
 @Component({
   selector: 'app-view-cart',
@@ -11,5 +12,5 @@ import { MatButton } from '@angular/material/button';
   styleUrl: './view-cart.scss',
 })
 export default class ViewCart {
-
+ store = inject(EcommerceStore);
 }
