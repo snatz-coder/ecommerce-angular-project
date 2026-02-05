@@ -16,6 +16,7 @@ import { SignInDialog } from './components/sign-in-dialog/sign-in-dialog';
 import { SignInParams, SignUpParams, User } from './model/user.model';
 import { Router } from '@angular/router';
 import { Order } from './model/order';
+import { withStorageSync } from '@angular-architects/ngrx-toolkit';
 
 export type EcommerceState = {
   products: Product[];
@@ -240,5 +241,6 @@ export const EcommerceStore = signalStore(
     patchState(store, {loading:false, cartItems:[]});
     router.navigate(['order-success'])
    }
-  }))
+  })),
+  withStorageSync({key:'snatz-store', select: ({user, cartItems, wishListItems}) => ({user, cartItems, wishListItems})})
 );

@@ -1,4 +1,4 @@
-<mat-sidenav-container class="h-screen">
+<mat-sidenav-container class="h-full">
   <mat-sidenav  #sidenav [mode]="isMobile() ? 'over' : 'side'"
   [opened]="!isMobile()">
     <div class="p-6">
@@ -18,7 +18,7 @@
       </mat-nav-list>
     </div>
   </mat-sidenav>
-  <mat-sidenav-content class="bg-gray-100 p-6 h-full overflow-y-auto">
+  <mat-sidenav-content class="bg-gray-100 p-6 overflow-y-auto">
     <div class="flex justify-between">
       <h1 class="text-2xl font-bold text-gray-900 mb-1">{{ category() | titlecase }}</h1>
       <button
