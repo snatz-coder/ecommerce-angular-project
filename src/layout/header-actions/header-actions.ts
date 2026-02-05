@@ -9,6 +9,9 @@ import { MatDivider } from '@angular/material/divider';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SignInDialog } from '../../components/sign-in-dialog/sign-in-dialog';
 import { SignUpDialog } from '../../components/sign-up-dialog/sign-up-dialog';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-header-actions',
@@ -29,6 +32,14 @@ import { SignUpDialog } from '../../components/sign-up-dialog/sign-up-dialog';
 export class HeaderActions {
   store = inject(EcommerceStore);
   matDialog = inject(MatDialog);
+  breakpoint = inject(BreakpointObserver);
+
+  isMobile = toSignal(
+  this.breakpoint.observe('(max-width: 768px)').pipe(
+    map(state => state.matches)
+  ),
+  { initialValue: false }
+);
 
   openSignInDialog() {
     this.matDialog.open(SignInDialog, {

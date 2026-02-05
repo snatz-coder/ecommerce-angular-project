@@ -22,8 +22,27 @@
    </mat-menu>
  } 
  @else{
-     <button matButton (click)="openSignInDialog()" >Sign In</button>
-     <button matButton="filled" (click)="openSignUpDialog()">Sign Up</button>
+   <div class="flex gap-2">
+     
+      @if(isMobile()){
+         <button matIconButton (click)="openSignInDialog()" >
+            <mat-icon>login</mat-icon>
+         </button>
+      } 
+      @else {
+         <button  matButton (click)="openSignInDialog()" >Sign In </button>
+      }
+    
+      @if(isMobile()){
+            <button matIconButton (click)="openSignUpDialog()" >
+            <mat-icon>person_add</mat-icon>
+         </button>
+      } 
+      @else {
+         <button  matButton="filled" (click)="openSignUpDialog()" >Sign Up </button>
+      }
+   </div>
+
  }
 
 </div>
