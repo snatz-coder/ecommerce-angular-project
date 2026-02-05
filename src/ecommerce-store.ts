@@ -13,8 +13,9 @@ import { Toaster } from './service/toaster';
 import { CartItem } from './model/cart.model';
 import { MatDialog } from '@angular/material/dialog';
 import { SignInDialog } from './components/sign-in-dialog/sign-in-dialog';
-import { SignInParams, User } from './model/user.model';
+import { SignInParams, SignUpParams, User } from './model/user.model';
 import { Router } from '@angular/router';
+import { Order } from './model/order';
 
 export type EcommerceState = {
   products: Product[];
@@ -22,6 +23,7 @@ export type EcommerceState = {
   wishListItems: Product[];
   cartItems: CartItem[];
   user:User | undefined;
+  loading:boolean;
 };
 
 export const EcommerceStore = signalStore(
@@ -114,7 +116,8 @@ export const EcommerceStore = signalStore(
     category: 'all',
     wishListItems: [],
     cartItems: [],
-    user:undefined
+    user:undefined,
+    loading:false
   } as unknown as EcommerceState),
   withComputed(({ products, category, wishListItems, cartItems }) => ({
     filteredProducts: computed(() => {
@@ -198,11 +201,44 @@ export const EcommerceStore = signalStore(
       id:'1',
       email,
       name:'John Doe',
-      imageUrl:''
+      imageUrl:'https://randomuser.me/api/portraits/men/1.jpg'
      }})
-      console.log("checkout",checkout)
      matDialog.getDialogById(dialogId)?.close();
      if(checkout) router.navigate(['/checkout'])
+    },
+      signUp: ({email,password, name, checkout, dialogId}: SignUpParams) => {
+     patchState(store, {
+      user: {
+      id:'1',
+      email,
+      name:'John Doe',
+      imageUrl:'https://randomuser.me/api/portraits/men/1.jpg'
+     }})
+     matDialog.getDialogById(dialogId)?.close();
+     if(checkout) router.navigate(['/checkout'])
+    },
+   signOut: () => {
+    patchState(store, {user:undefined})
+   },
+   placeOrder: async () => {
+    patchState(store, {loading:true});
+    const user = store.user();
+    if(!user){
+     toast.error('Please login before placing order');
+      patchState(store, {loading:false});
+      return;
     }
+    const order:Order = {
+       id:crypto.randomUUID(),
+       userId: store.user()?.id || '',
+       total: Math.round(store.cartItems().reduce((acc,item) => acc + item.quantity * item.product.price,0)),
+       items: store.cartItems(),
+       paymentStatus:'success'
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    patchState(store, {loading:false, cartItems:[]});
+    router.navigate(['order-success'])
+   }
   }))
 );

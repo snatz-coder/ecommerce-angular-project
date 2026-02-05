@@ -1,1 +1,25 @@
-<p>checkout works!</p>
+<div class="mx-auto max-w-[1200px] py-6 px-8">
+  <app-back-button  class="mb-6" [label]="'Back to Cart'" [navigateTo]="'/view-cart'"
+    ></app-back-button>
+  <h1 class="text-3xl font-extrabold mb-4 mt-4 px-4">Checkout</h1>
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+    <div class="lg:col-span-3 flex flex-col gap-6">
+      <app-shipping-form />
+      <app-payment-form />
+    </div>
+    <div class="lg:col-span-2">
+      <app-summarise-order>
+        <ng-container actionButtons>
+            <button
+            matButton="filled"
+            [disabled]="store.loading()"
+            class="w-full mt-6 py-3"
+            (click)="store.placeOrder()"
+             >
+             {{store.loading()? 'Processing...':'Place Order'}}
+            </button>
+        </ng-container>
+      </app-summarise-order>
+    </div>
+  </div>
+</div>
